@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SI PREP — WAR ROOM | Krupal</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #050810;
+  --bg-secondary: #080d1a;
+  --bg-card: rgba(12, 20, 40, 0.7);
+  --bg-card-hover: rgba(16, 26, 52, 0.85);
+  --border: rgba(56, 100, 200, 0.18);
+  --border-glow: rgba(56, 150, 255, 0.35);
+  --accent-blue: #1e6fff;
+  --accent-cyan: #00d4ff;
+  --accent-green: #00e676;
+  --accent-yellow: #ffd600;
+  --accent-red: #ff3d57;
+  --accent-orange: #ff6d00;
+  --text-primary: #e8eeff;
+  --text-secondary: #7a90c0;
+  --text-muted: #3a4e7a;
+  --font-display: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-body: 'Nunito', sans-serif;
+  --sidebar-w: 240px;
+  --glow-blue: 0 0 20px rgba(30, 111, 255, 0.4);
+  --glow-green: 0 0 20px rgba(0, 230, 118, 0.4);
+  --glow-red: 0 0 20px rgba(255, 61, 87, 0.4);
+  --glow-yellow: 0 0 20px rgba(255, 214, 0, 0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(30,111,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,212,255,0.05) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+/* ──── SIDEBAR ──── */
+.sidebar{
+  position:fixed;top:0;left:0;
+  width:var(--sidebar-w);height:100vh;
+  background: rgba(6,12,28,0.95);
+  border-right:1px solid var(--border);
+  backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;
+  z-index:100;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
+.sidebar-logo{
+  padding:24px 20px 16px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-logo .badge{
+  display:inline-block;
+  background:linear-gradient(135deg,#1e3a8a,#1e6fff);
+  color:#fff;font-size:9px;font-family:var(--font-mono);
+  letter-spacing:2px;padding:3px 8px;border-radius:2px;margin-bottom:8px;
+}
+.sidebar-logo h1{
+  font-family:var(--font-display);font-size:22px;font-weight:700;
+  letter-spacing:2px;color:#fff;line-height:1;
+}
+.sidebar-logo span{color:var(--accent-cyan);}
+.sidebar-logo p{
+  font-size:10px;color:var(--text-muted);letter-spacing:1px;
+  font-family:var(--font-mono);margin-top:4px;
+}
+.nav-section-label{
+  font-size:9px;letter-spacing:2px;color:var(--text-muted);
+  font-family:var(--font-mono);padding:16px 20px 6px;text-transform:uppercase;
+}
+.nav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 20px;cursor:pointer;
+  font-family:var(--font-display);font-size:14px;font-weight:500;
+  letter-spacing:.5px;color:var(--text-secondary);
+  border-left:2px solid transparent;
+  transition:all .2s ease;position:relative;
+}
+.nav-item:hover{background:rgba(30,111,255,0.08);color:var(--text-primary);}
+.nav-item.active{
+  background:rgba(30,111,255,0.12);
+  color:var(--accent-cyan);
+  border-left-color:var(--accent-cyan);
+}
+.nav-item .icon{font-size:16px;width:20px;text-align:center;}
+.nav-item .badge-count{
+  margin-left:auto;background:rgba(30,111,255,0.2);
+  color:var(--accent-cyan);font-size:10px;font-family:var(--font-mono);
+  padding:1px 6px;border-radius:10px;
+}
+.sidebar-footer{
+  margin-top:auto;padding:16px 20px;border-top:1px solid var(--border);
+}
+.sidebar-footer .exam-countdown{
+  background:rgba(30,111,255,0.08);border:1px solid var(--border-glow);
+  border-radius:8px;padding:12px;text-align:center;
+}
+.sidebar-footer .countdown-label{
+  font-size:9px;letter-spacing:2px;color:var(--text-muted);
+  font-family:var(--font-mono);
+}
+.sidebar-footer .countdown-days{
+  font-family:var(--font-display);font-size:32px;font-weight:700;
+  color:var(--accent-cyan);line-height:1;margin:4px 0;
+  text-shadow: var(--glow-blue);
+}
+.sidebar-footer .countdown-sub{font-size:10px;color:var(--text-secondary);}
+/* ──── MAIN ──── */
+.main{
+  margin-left:var(--sidebar-w);
+  min-height:100vh;
+  position:relative;z-index:1;
+}
+.topbar{
+  padding:16px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,8,16,0.8);backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:50;
+}
+.topbar-left h2{
+  font-family:var(--font-display);font-size:20px;font-weight:700;
+  letter-spacing:1px;color:#fff;
+}
+.topbar-left p{font-size:12px;color:var(--text-muted);font-family:var(--font-mono);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.streak-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,214,0,0.1);border:1px solid rgba(255,214,0,0.25);
+  padding:6px 12px;border-radius:20px;
+  font-family:var(--font-mono);font-size:12px;color:var(--accent-yellow);
+}
+.btn{
+  padding:7px 16px;border-radius:6px;border:none;cursor:pointer;
+  font-family:var(--font-display);font-size:13px;font-weight:600;
+  letter-spacing:.5px;transition:all .2s;
+}
+.btn-outline{
+  background:transparent;border:1px solid var(--border-glow);
+  color:var(--accent-cyan);
+}
+.btn-outline:hover{background:rgba(30,111,255,0.15);box-shadow:var(--glow-blue);}
+.btn-danger{background:rgba(255,61,87,0.15);border:1px solid rgba(255,61,87,0.3);color:var(--accent-red);}
+.btn-danger:hover{background:rgba(255,61,87,0.25);}
+.btn-success{background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,0.3);color:var(--accent-green);}
+.btn-success:hover{background:rgba(0,230,118,0.25);}
+/* ──── SECTIONS ──── */
+.section{display:none;padding:24px 28px 40px;animation:fadeIn .3s ease;}
+.section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+/* ──── CARDS ──── */
+.glass-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  backdrop-filter:blur(20px);
+  transition:all .25s ease;
+  position:relative;overflow:hidden;
+}
+.glass-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.03) 0%,transparent 60%);
+  pointer-events:none;
+}
+.glass-card:hover{border-color:var(--border-glow);transform:translateY(-2px);}
+/* ──── DASHBOARD ──── */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;margin-bottom:24px;
+}
+.stat-card{
+  padding:20px;
+  position:relative;
+}
+.stat-card .stat-icon{
+  font-size:22px;margin-bottom:8px;
+}
+.stat-card .stat-label{
+  font-size:11px;letter-spacing:1.5px;color:var(--text-muted);
+  font-family:var(--font-mono);text-transform:uppercase;
+}
+.stat-card .stat-value{
+  font-family:var(--font-display);font-size:36px;font-weight:700;
+  line-height:1;margin:4px 0;
+}
+.stat-card .stat-sub{font-size:11px;color:var(--text-secondary);}
+.stat-card.blue .stat-value{color:var(--accent-cyan);text-shadow:var(--glow-blue);}
+.stat-card.green .stat-value{color:var(--accent-green);text-shadow:var(--glow-green);}
+.stat-card.yellow .stat-value{color:var(--accent-yellow);text-shadow:var(--glow-yellow);}
+.stat-card.red .stat-value{color:var(--accent-red);text-shadow:var(--glow-red);}
+/* circular progress */
+.circular-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:16px;margin-bottom:24px;
+}
+.circ-card{
+  padding:24px 16px;text-align:center;
+}
+.circ-wrap{position:relative;width:100px;height:100px;margin:0 auto 12px;}
+.circ-wrap svg{transform:rotate(-90deg);}
+.circ-wrap circle{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);}
+.circ-wrap .track{stroke:rgba(255,255,255,0.06);}
+.circ-wrap .fill-blue{stroke:var(--accent-cyan);filter:drop-shadow(0 0 6px var(--accent-cyan));}
+.circ-wrap .fill-green{stroke:var(--accent-green);filter:drop-shadow(0 0 6px var(--accent-green));}
+.circ-wrap .fill-yellow{stroke:var(--accent-yellow);filter:drop-shadow(0 0 6px var(--accent-yellow));}
+.circ-wrap .fill-red{stroke:var(--accent-red);filter:drop-shadow(0 0 6px var(--accent-red));}
+.circ-wrap .fill-orange{stroke:var(--accent-orange);filter:drop-shadow(0 0 6px var(--accent-orange));}
+.circ-center{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--font-display);font-size:22px;font-weight:700;
+}
+.circ-card .circ-label{
+  font-family:var(--font-display);font-size:14px;font-weight:600;
+  letter-spacing:.5px;color:var(--text-primary);
+}
+.circ-card .circ-sub{font-size:11px;color:var(--text-muted);margin-top:2px;}
+/* quote */
+.quote-card{
+  padding:24px;margin-bottom:24px;
+  border-left:3px solid var(--accent-cyan);
+}
+.quote-card .quote-text{
+  font-family:var(--font-display);font-size:18px;font-weight:500;
+  color:#fff;line-height:1.5;
+}
+.quote-card .quote-author{
+  font-size:12px;color:var(--text-muted);font-family:var(--font-mono);
+  margin-top:8px;
+}
+.quote-card .quote-refresh{
+  background:none;border:none;cursor:pointer;
+  color:var(--text-muted);font-size:14px;margin-left:8px;
+  transition:color .2s;
+}
+.quote-card .quote-refresh:hover{color:var(--accent-cyan);}
+/* section headers */
+.sec-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;
+}
+.sec-header h2{
+  font-family:var(--font-display);font-size:22px;font-weight:700;
+  letter-spacing:1px;
+}
+.sec-header h2 span{color:var(--accent-cyan);}
+.sec-header .progress-text{
+  font-family:var(--font-mono);font-size:13px;color:var(--text-secondary);
+}
+/* row title */
+.row-title{
+  font-family:var(--font-display);font-size:15px;font-weight:600;
+  letter-spacing:.5px;color:var(--text-secondary);
+  text-transform:uppercase;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.row-title::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+/* ──── CHAPTER CARDS ──── */
+.chapter-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
+.chapter-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;transition:all .2s;
+}
+.chapter-card:hover{border-color:var(--border-glow);}
+.chapter-header{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;cursor:pointer;user-select:none;
+}
+.chapter-header .ch-check{
+  width:20px;height:20px;border-radius:5px;
+  border:2px solid var(--text-muted);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;cursor:pointer;transition:all .2s;font-size:12px;
+}
+.chapter-card.done .chapter-header .ch-check{
+  background:var(--accent-green);border-color:var(--accent-green);color:#000;
+}
+.chapter-header .ch-name{
+  font-family:var(--font-display);font-size:15px;font-weight:600;
+  flex:1;letter-spacing:.3px;
+}
+.chapter-header .ch-conf{
+  font-size:11px;font-family:var(--font-mono);padding:2px 8px;
+  border-radius:10px;font-weight:600;
+}
+.conf-weak{background:rgba(255,61,87,0.15);color:var(--accent-red);border:1px solid rgba(255,61,87,0.3);}
+.conf-medium{background:rgba(255,214,0,0.12);color:var(--accent-yellow);border:1px solid rgba(255,214,0,0.3);}
+.conf-strong{background:rgba(0,230,118,0.12);color:var(--accent-green);border:1px solid rgba(0,230,118,0.3);}
+.conf-none{background:rgba(255,255,255,0.05);color:var(--text-muted);border:1px solid var(--border);}
+.chapter-header .ch-progress-mini{
+  width:60px;height:4px;background:rgba(255,255,255,0.08);
+  border-radius:2px;overflow:hidden;
+}
+.chapter-header .ch-progress-mini span{
+  display:block;height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan));
+  transition:width .5s ease;
+}
+.chapter-header .ch-chevron{
+  font-size:12px;color:var(--text-muted);
+  transition:transform .2s;flex-shrink:0;
+}
+.chapter-card.expanded .ch-chevron{transform:rotate(180deg);}
+.chapter-body{
+  display:none;padding:0 16px 16px;
+  border-top:1px solid var(--border);
+}
+.chapter-card.expanded .chapter-body{display:block;animation:fadeIn .2s;}
+.ch-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+.ch-control-group label{
+  display:block;font-size:10px;letter-spacing:1px;color:var(--text-muted);
+  font-family:var(--font-mono);margin-bottom:5px;text-transform:uppercase;
+}
+.ch-control-group input,
+.ch-control-group select,
+.ch-control-group textarea{
+  width:100%;background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);border-radius:6px;
+  color:var(--text-primary);font-family:var(--font-body);font-size:13px;
+  padding:8px 10px;outline:none;transition:border-color .2s;
+  resize:none;
+}
+.ch-control-group input:focus,
+.ch-control-group select:focus,
+.ch-control-group textarea:focus{border-color:var(--accent-cyan);}
+.ch-control-group select option{background:#0d1830;}
+.ch-conf-btns{display:flex;gap:6px;margin-top:12px;}
+.conf-btn{
+  flex:1;padding:6px;border:1px solid var(--border);
+  border-radius:6px;background:none;cursor:pointer;
+  font-family:var(--font-display);font-size:12px;font-weight:600;
+  letter-spacing:.5px;transition:all .2s;color:var(--text-secondary);
+}
+.conf-btn.weak.active{background:rgba(255,61,87,0.2);border-color:var(--accent-red);color:var(--accent-red);}
+.conf-btn.medium.active{background:rgba(255,214,0,0.15);border-color:var(--accent-yellow);color:var(--accent-yellow);}
+.conf-btn.strong.active{background:rgba(0,230,118,0.15);border-color:var(--accent-green);color:var(--accent-green);}
+.ch-progress-row{display:flex;align-items:center;gap:10px;margin-top:12px;}
+.ch-progress-row label{
+  font-size:10px;color:var(--text-muted);font-family:var(--font-mono);
+  white-space:nowrap;
+}
+.ch-progress-row input[type=range]{
+  flex:1;appearance:none;height:4px;
+  background:rgba(255,255,255,0.1);border-radius:2px;outline:none;cursor:pointer;
+}
+.ch-progress-row input[type=range]::-webkit-slider-thumb{
+  appearance:none;width:14px;height:14px;border-radius:50%;
+  background:var(--accent-cyan);cursor:pointer;
+  box-shadow:0 0 8px var(--accent-cyan);
+}
+.ch-progress-row .prog-val{
+  font-family:var(--font-mono);font-size:12px;color:var(--accent-cyan);
+  min-width:32px;text-align:right;
+}
+.ch-progress-bar{
+  height:3px;background:rgba(255,255,255,0.06);border-radius:2px;
+  margin-top:4px;overflow:hidden;
+}
+.ch-progress-bar span{
+  display:block;height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan));
+  transition:width .5s ease;
+}
+/* ──── PHYSICAL ──── */
+.phys-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+.phys-card{padding:20px;}
+.phys-card h3{
+  font-family:var(--font-display);font-size:16px;font-weight:600;
+  letter-spacing:.5px;margin-bottom:16px;color:#fff;
+}
+.phys-input-group{margin-bottom:12px;}
+.phys-input-group label{
+  display:block;font-size:10px;letter-spacing:1px;color:var(--text-muted);
+  font-family:var(--font-mono);margin-bottom:5px;
+}
+.phys-input-group input{
+  width:100%;background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);border-radius:6px;
+  color:var(--text-primary);font-family:var(--font-mono);font-size:14px;
+  padding:8px 10px;outline:none;transition:border-color .2s;
+}
+.phys-input-group input:focus{border-color:var(--accent-cyan);}
+.phys-toggle{display:flex;align-items:center;gap:10px;margin-top:8px;}
+.toggle-switch{
+  width:40px;height:22px;border-radius:11px;
+  background:rgba(255,255,255,0.1);border:1px solid var(--border);
+  position:relative;cursor:pointer;transition:background .2s;
+}
+.toggle-switch.on{background:rgba(0,230,118,0.3);border-color:var(--accent-green);}
+.toggle-switch::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:14px;height:14px;border-radius:50%;background:#fff;
+  transition:transform .2s;
+}
+.toggle-switch.on::after{transform:translateX(18px);background:var(--accent-green);}
+.toggle-label{font-size:12px;color:var(--text-secondary);}
+/* ──── DAILY TRACKER ──── */
+.daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+.daily-card{padding:20px;}
+.daily-card h3{
+  font-family:var(--font-display);font-size:15px;font-weight:600;
+  letter-spacing:.5px;color:#fff;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.mood-grid{display:flex;gap:8px;flex-wrap:wrap;}
+.mood-btn{
+  padding:6px 12px;border-radius:20px;border:1px solid var(--border);
+  background:none;cursor:pointer;font-size:16px;
+  transition:all .2s;
+}
+.mood-btn.active{border-color:var(--accent-cyan);background:rgba(0,212,255,0.1);transform:scale(1.1);}
+.task-input-row{display:flex;gap:8px;margin-bottom:10px;}
+.task-input-row input{
+  flex:1;background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);border-radius:6px;
+  color:var(--text-primary);font-family:var(--font-body);font-size:13px;
+  padding:8px 12px;outline:none;
+}
+.task-input-row input:focus{border-color:var(--accent-cyan);}
+.task-add-btn{
+  background:rgba(30,111,255,0.2);border:1px solid var(--border-glow);
+  color:var(--accent-cyan);border-radius:6px;padding:8px 14px;
+  cursor:pointer;font-size:14px;transition:all .2s;
+}
+.task-add-btn:hover{background:rgba(30,111,255,0.35);}
+.task-list{display:flex;flex-direction:column;gap:6px;}
+.task-item{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.03);border-radius:6px;
+  padding:8px 10px;
+}
+.task-item .task-check{
+  width:16px;height:16px;border-radius:4px;border:1px solid var(--text-muted);
+  cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:10px;transition:all .2s;
+}
+.task-item.done .task-check{background:var(--accent-green);border-color:var(--accent-green);color:#000;}
+.task-item.done .task-name{text-decoration:line-through;color:var(--text-muted);}
+.task-item .task-name{flex:1;font-size:13px;}
+.task-item .task-del{
+  background:none;border:none;cursor:pointer;
+  color:var(--text-muted);font-size:12px;transition:color .2s;
+}
+.task-item .task-del:hover{color:var(--accent-red);}
+.hours-display{
+  font-family:var(--font-display);font-size:42px;font-weight:700;
+  color:var(--accent-cyan);text-shadow:var(--glow-blue);
+  margin:8px 0;
+}
+.hours-controls{display:flex;gap:8px;}
+.hours-btn{
+  padding:6px 14px;border-radius:6px;border:1px solid var(--border-glow);
+  background:rgba(0,212,255,0.08);color:var(--accent-cyan);
+  cursor:pointer;font-family:var(--font-display);font-size:16px;
+  font-weight:700;transition:all .2s;
+}
+.hours-btn:hover{background:rgba(0,212,255,0.2);}
+/* ──── ANALYTICS ──── */
+.analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px;}
+.analytics-card{padding:20px;text-align:center;}
+.analytics-card .a-icon{font-size:28px;margin-bottom:8px;}
+.analytics-card .a-val{
+  font-family:var(--font-display);font-size:28px;font-weight:700;
+  color:var(--accent-cyan);
+}
+.analytics-card .a-label{font-size:11px;color:var(--text-muted);font-family:var(--font-mono);}
+.subject-bars{margin-bottom:24px;}
+.subject-bar-row{margin-bottom:14px;}
+.subject-bar-info{
+  display:flex;justify-content:space-between;
+  margin-bottom:5px;
+}
+.subject-bar-info .s-name{
+  font-family:var(--font-display);font-size:14px;font-weight:600;
+  letter-spacing:.3px;
+}
+.subject-bar-info .s-pct{
+  font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);
+}
+.subject-bar-track{
+  height:6px;background:rgba(255,255,255,0.07);
+  border-radius:3px;overflow:hidden;
+}
+.subject-bar-fill{
+  height:100%;border-radius:3px;transition:width 1s ease;
+  position:relative;
+}
+.subject-bar-fill::after{
+  content:'';position:absolute;right:0;top:0;bottom:0;
+  width:4px;border-radius:50%;
+  box-shadow:0 0 8px currentColor;
+}
+/* Weekly Chart */
+.weekly-chart{
+  display:flex;align-items:flex-end;gap:8px;
+  height:120px;padding:12px 0 0;
+}
+.week-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.week-bar{
+  width:100%;border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,var(--accent-cyan),var(--accent-blue));
+  transition:height .8s ease;min-height:4px;
+  position:relative;cursor:pointer;
+}
+.week-bar:hover::after{
+  content:attr(data-val);
+  position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,0.8);color:#fff;font-size:10px;
+  padding:2px 6px;border-radius:3px;white-space:nowrap;
+  font-family:var(--font-mono);
+}
+.week-bar-label{font-size:10px;color:var(--text-muted);font-family:var(--font-mono);}
+/* ──── TOAST ──── */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:1000;
+  background:rgba(12,20,40,0.95);border:1px solid var(--border-glow);
+  color:var(--text-primary);padding:12px 20px;border-radius:8px;
+  font-family:var(--font-display);font-size:14px;
+  backdrop-filter:blur(20px);
+  transform:translateY(80px);opacity:0;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+.toast.show{transform:none;opacity:1;}
+/* ──── PROGRESS BAR GLOBAL ──── */
+.prog-bar-wrap{margin-bottom:6px;}
+.prog-bar-label{display:flex;justify-content:space-between;margin-bottom:4px;}
+.prog-bar-label span:first-child{font-size:12px;color:var(--text-secondary);}
+.prog-bar-label span:last-child{font-size:11px;font-family:var(--font-mono);color:var(--text-muted);}
+.prog-bar-track{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;}
+.prog-bar-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+/* ──── MOBILE ──── */
+.hamburger{
+  display:none;
+  background:none;border:none;cursor:pointer;
+  padding:8px;color:var(--text-primary);font-size:20px;
+}
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  z-index:90;
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:none;}
+  .sidebar-overlay{display:block;}
+  .main{margin-left:0;}
+  .hamburger{display:block;}
+  .daily-grid{grid-template-columns:1fr;}
+  .ch-controls{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .circular-grid{grid-template-columns:1fr 1fr;}
+  .section{padding:16px 14px 40px;}
+  .topbar{padding:12px 14px;}
+  .analytics-grid{grid-template-columns:1fr 1fr;}
+}
+/* ──── SCROLLBAR ──── */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border-glow);border-radius:2px;}
+/* ──── GLOW PULSE ──── */
+@keyframes glowPulse{
+  0%,100%{box-shadow:0 0 10px rgba(0,212,255,0.2);}
+  50%{box-shadow:0 0 25px rgba(0,212,255,0.5);}
+}
+.glow-pulse{animation:glowPulse 3s ease-in-out infinite;}
+/* tabs */
+.tabs{display:flex;gap:4px;margin-bottom:20px;background:rgba(0,0,0,0.3);padding:4px;border-radius:8px;width:fit-content;}
+.tab{
+  padding:7px 16px;border-radius:5px;cursor:pointer;
+  font-family:var(--font-display);font-size:13px;font-weight:600;
+  letter-spacing:.3px;color:var(--text-muted);transition:all .2s;border:none;background:none;
+}
+.tab.active{background:rgba(30,111,255,0.25);color:var(--accent-cyan);}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeIn .2s;}
+/* status pill */
+.status-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-family:var(--font-mono);padding:2px 8px;
+  border-radius:10px;
+}
+.status-foundation{background:rgba(0,230,118,0.1);color:var(--accent-green);border:1px solid rgba(0,230,118,0.2);}
+.status-partial{background:rgba(255,214,0,0.1);color:var(--accent-yellow);border:1px solid rgba(255,214,0,0.2);}
+.status-todo{background:rgba(255,255,255,0.05);color:var(--text-muted);border:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()" style="display:none;"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="badge">◈ OPERATION SI</div>
+    <h1>WAR<span>ROOM</span></h1>
+    <p>TSLPRB · SUB INSPECTOR · KRUPAL</p>
+  </div>
+
+  <div class="nav-section-label">NAVIGATION</div>
+  <div class="nav-item active" onclick="showSection('dashboard',this)">
+    <span class="icon">⬡</span> Dashboard
+  </div>
+  <div class="nav-item" onclick="showSection('arithmetic',this)">
+    <span class="icon">∑</span> Arithmetic
+    <span class="badge-count" id="nav-arith-count">0</span>
+  </div>
+  <div class="nav-item" onclick="showSection('reasoning',this)">
+    <span class="icon">◈</span> Reasoning
+    <span class="badge-count" id="nav-reason-count">0</span>
+  </div>
+  <div class="nav-item" onclick="showSection('gs',this)">
+    <span class="icon">🌐</span> General Studies
+    <span class="badge-count" id="nav-gs-count">0</span>
+  </div>
+  <div class="nav-item" onclick="showSection('physical',this)">
+    <span class="icon">⚡</span> Physical Training
+  </div>
+  <div class="nav-section-label">TRACKING</div>
+  <div class="nav-item" onclick="showSection('daily',this)">
+    <span class="icon">📋</span> Daily Tracker
+  </div>
+  <div class="nav-item" onclick="showSection('analytics',this)">
+    <span class="icon">◉</span> Analytics
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="exam-countdown glow-pulse">
+      <div class="countdown-label">EXAM COUNTDOWN</div>
+      <div class="countdown-days" id="countdownDays">—</div>
+      <div class="countdown-sub">days remaining</div>
+      <input type="date" id="examDateInput"
+        style="margin-top:8px;width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-secondary);border-radius:4px;padding:4px;font-size:11px;outline:none;text-align:center;"
+        onchange="saveExamDate(this.value)">
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="hamburger" onclick="openSidebar()">☰</button>
+      <div class="topbar-left">
+        <h2 id="topbarTitle">MISSION DASHBOARD</h2>
+        <p id="topbarSub" style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">TSLPRB SI · BEGINNER → OFFICER</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="streak-badge">🔥 <span id="streakDisplay">0</span> day streak</div>
+      <button class="btn btn-success" onclick="exportJSON()">⬇ Export</button>
+      <button class="btn btn-danger" onclick="resetProgress()">↺ Reset</button>
+    </div>
+  </div>
+
+  <!-- ═══ DASHBOARD ═══ -->
+  <div class="section active" id="section-dashboard">
+
+    <!-- Quote -->
+    <div class="glass-card quote-card" style="margin-bottom:20px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+        <div>
+          <div style="font-size:11px;letter-spacing:2px;color:var(--accent-cyan);font-family:var(--font-mono);margin-bottom:8px;">◈ DAILY MISSION BRIEF</div>
+          <div class="quote-text" id="quoteText">Loading...</div>
+          <div class="quote-author" id="quoteAuthor">—</div>
+        </div>
+        <button class="quote-refresh" onclick="newQuote()" title="New quote">↺</button>
+      </div>
+    </div>
+
+    <!-- Overall progress + streak/hours -->
+    <div class="stats-grid" style="margin-bottom:20px;">
+      <div class="glass-card stat-card blue" style="grid-column:span 2;">
+        <div class="stat-label">TOTAL MISSION COMPLETION</div>
+        <div style="display:flex;align-items:flex-end;gap:16px;margin-top:6px;">
+          <div class="stat-value" id="totalPct">0%</div>
+          <div style="flex:1;padding-bottom:8px;">
+            <div class="prog-bar-track" style="height:8px;border-radius:4px;">
+              <div class="prog-bar-fill" id="totalBar"
+                style="background:linear-gradient(90deg,#1e6fff,#00d4ff);height:100%;border-radius:4px;box-shadow:0 0 12px rgba(0,212,255,0.5);width:0%;transition:width 1s ease;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-sub">Arithmetic + Reasoning + GS + Physical combined</div>
+      </div>
+      <div class="glass-card stat-card yellow">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-label">DAILY STREAK</div>
+        <div class="stat-value" id="streakVal">0</div>
+        <div class="stat-sub">consecutive days</div>
+      </div>
+      <div class="glass-card stat-card blue">
+        <div class="stat-icon">⏱</div>
+        <div class="stat-label">TOTAL STUDY HRS</div>
+        <div class="stat-value" id="totalHrsVal">0</div>
+        <div class="stat-sub">hours logged</div>
+      </div>
+      <div class="glass-card stat-card green">
+        <div class="stat-icon">✓</div>
+        <div class="stat-label">CHAPTERS DONE</div>
+        <div class="stat-value" id="totalDoneVal">0</div>
+        <div class="stat-sub">of 32 total</div>
+      </div>
+      <div class="glass-card stat-card red">
+        <div class="stat-icon">⚠</div>
+        <div class="stat-label">WEAK AREAS</div>
+        <div class="stat-value" id="weakCount">0</div>
+        <div class="stat-sub">need attention</div>
+      </div>
+    </div>
+
+    <!-- Circular Progress -->
+    <div class="row-title">◈ SUBJECT PROGRESS</div>
+    <div class="circular-grid">
+      <div class="glass-card circ-card">
+        <div class="circ-wrap">
+          <svg viewBox="0 0 100 100" width="100" height="100">
+            <circle class="track" cx="50" cy="50" r="42"/>
+            <circle class="fill-blue" id="circ-arith" cx="50" cy="50" r="42"
+              stroke-dasharray="264" stroke-dashoffset="264"/>
+          </svg>
+          <div class="circ-center" style="color:var(--accent-cyan)" id="circ-arith-txt">0%</div>
+        </div>
+        <div class="circ-label">Arithmetic</div>
+        <div class="circ-sub" id="circ-arith-sub">0 / 18 chapters</div>
+      </div>
+      <div class="glass-card circ-card">
+        <div class="circ-wrap">
+          <svg viewBox="0 0 100 100" width="100" height="100">
+            <circle class="track" cx="50" cy="50" r="42"/>
+            <circle class="fill-green" id="circ-reason" cx="50" cy="50" r="42"
+              stroke-dasharray="264" stroke-dashoffset="264"/>
+          </svg>
+          <div class="circ-center" style="color:var(--accent-green)" id="circ-reason-txt">0%</div>
+        </div>
+        <div class="circ-label">Reasoning</div>
+        <div class="circ-sub" id="circ-reason-sub">0 / 8 chapters</div>
+      </div>
+      <div class="glass-card circ-card">
+        <div class="circ-wrap">
+          <svg viewBox="0 0 100 100" width="100" height="100">
+            <circle class="track" cx="50" cy="50" r="42"/>
+            <circle class="fill-yellow" id="circ-gs" cx="50" cy="50" r="42"
+              stroke-dasharray="264" stroke-dashoffset="264"/>
+          </svg>
+          <div class="circ-center" style="color:var(--accent-yellow)" id="circ-gs-txt">0%</div>
+        </div>
+        <div class="circ-label">Gen. Studies</div>
+        <div class="circ-sub" id="circ-gs-sub">0 / 6 chapters</div>
+      </div>
+      <div class="glass-card circ-card">
+        <div class="circ-wrap">
+          <svg viewBox="0 0 100 100" width="100" height="100">
+            <circle class="track" cx="50" cy="50" r="42"/>
+            <circle class="fill-orange" id="circ-phys" cx="50" cy="50" r="42"
+              stroke-dasharray="264" stroke-dashoffset="264"/>
+          </svg>
+          <div class="circ-center" style="color:var(--accent-orange)" id="circ-phys-txt">0%</div>
+        </div>
+        <div class="circ-label">Physical</div>
+        <div class="circ-sub">Daily PT score</div>
+      </div>
+    </div>
+
+    <!-- Foundation status -->
+    <div class="row-title">◈ ARITHMETIC FOUNDATION STATUS</div>
+    <div class="glass-card" style="padding:20px;margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;" id="foundationStatus">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- Weak areas -->
+    <div class="row-title">◈ WEAK AREAS RADAR</div>
+    <div class="glass-card" style="padding:20px;" id="weakAreasList">
+      <div style="color:var(--text-muted);font-family:var(--font-mono);font-size:12px;text-align:center;padding:16px;">
+        No weak areas flagged yet. Mark chapters as Weak to see them here.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ARITHMETIC ═══ -->
+  <div class="section" id="section-arithmetic">
+    <div class="sec-header">
+      <h2>∑ <span>ARITHMETIC</span> COMMAND</h2>
+      <div class="progress-text" id="arith-header-pct">0 / 18 chapters</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div class="prog-bar-track" style="height:6px;">
+        <div class="prog-bar-fill" id="arith-top-bar"
+          style="background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan));width:0%;transition:width 1s;"></div>
+      </div>
+    </div>
+    <div class="chapter-grid" id="arith-chapters"></div>
+  </div>
+
+  <!-- ═══ REASONING ═══ -->
+  <div class="section" id="section-reasoning">
+    <div class="sec-header">
+      <h2>◈ <span>REASONING</span> COMMAND</h2>
+      <div class="progress-text" id="reason-header-pct">0 / 8 chapters</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div class="prog-bar-track" style="height:6px;">
+        <div class="prog-bar-fill" id="reason-top-bar"
+          style="background:linear-gradient(90deg,#00c853,var(--accent-green));width:0%;transition:width 1s;"></div>
+      </div>
+    </div>
+    <div class="chapter-grid" id="reason-chapters"></div>
+  </div>
+
+  <!-- ═══ GENERAL STUDIES ═══ -->
+  <div class="section" id="section-gs">
+    <div class="sec-header">
+      <h2>🌐 <span>GENERAL STUDIES</span></h2>
+      <div class="progress-text" id="gs-header-pct">0 / 6 chapters</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div class="prog-bar-track" style="height:6px;">
+        <div class="prog-bar-fill" id="gs-top-bar"
+          style="background:linear-gradient(90deg,#f9a825,var(--accent-yellow));width:0%;transition:width 1s;"></div>
+      </div>
+    </div>
+    <div class="chapter-grid" id="gs-chapters"></div>
+  </div>
+
+  <!-- ═══ PHYSICAL ═══ -->
+  <div class="section" id="section-physical">
+    <div class="sec-header">
+      <h2>⚡ <span>PHYSICAL</span> TRAINING</h2>
+    </div>
+    <div class="phys-grid">
+      <div class="glass-card phys-card">
+        <h3>🏃 Running</h3>
+        <div class="phys-input-group">
+          <label>TODAY'S TIME (mm:ss)</label>
+          <input type="text" id="runTime" placeholder="e.g. 14:30" oninput="savePhys()">
+        </div>
+        <div class="phys-input-group">
+          <label>DISTANCE (km)</label>
+          <input type="number" id="runDist" placeholder="e.g. 3.5" oninput="savePhys()">
+        </div>
+        <div class="phys-input-group">
+          <label>BEST TIME (mm:ss)</label>
+          <input type="text" id="runBest" placeholder="personal best" oninput="savePhys()">
+        </div>
+      </div>
+      <div class="glass-card phys-card">
+        <h3>💪 Strength</h3>
+        <div class="phys-input-group">
+          <label>PUSHUPS (count)</label>
+          <input type="number" id="pushups" placeholder="e.g. 30" oninput="savePhys()">
+        </div>
+        <div class="phys-input-group">
+          <label>PULLUPS (count)</label>
+          <input type="number" id="pullups" placeholder="e.g. 10" oninput="savePhys()">
+        </div>
+        <div class="phys-input-group">
+          <label>SIT-UPS (count)</label>
+          <input type="number" id="situps" placeholder="e.g. 40" oninput="savePhys()">
+        </div>
+      </div>
+      <div class="glass-card phys-card">
+        <h3>📅 Daily Completion</h3>
+        <div class="phys-toggle" style="margin-bottom:12px;">
+          <div class="toggle-switch" id="tog-run" onclick="togglePhys('run')"></div>
+          <span class="toggle-label">Morning Run ✓</span>
+        </div>
+        <div class="phys-toggle" style="margin-bottom:12px;">
+          <div class="toggle-switch" id="tog-workout" onclick="togglePhys('workout')"></div>
+          <span class="toggle-label">Strength Workout ✓</span>
+        </div>
+        <div class="phys-toggle" style="margin-bottom:12px;">
+          <div class="toggle-switch" id="tog-stretch" onclick="togglePhys('stretch')"></div>
+          <span class="toggle-label">Stretching / Cool-down ✓</span>
+        </div>
+        <div class="phys-toggle">
+          <div class="toggle-switch" id="tog-rest" onclick="togglePhys('rest')"></div>
+          <span class="toggle-label">Rest Day</span>
+        </div>
+      </div>
+      <div class="glass-card phys-card">
+        <h3>📊 Stamina Score</h3>
+        <div id="physScore" style="font-family:var(--font-display);font-size:48px;font-weight:700;color:var(--accent-orange);text-shadow:0 0 20px rgba(255,109,0,0.5);margin-bottom:8px;">0%</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">Based on daily completion</div>
+        <div class="phys-input-group">
+          <label>NOTES / GOAL FOR TOMORROW</label>
+          <input type="text" id="physNotes" placeholder="e.g. improve 1.5km time" oninput="savePhys()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DAILY TRACKER ═══ -->
+  <div class="section" id="section-daily">
+    <div class="sec-header">
+      <h2>📋 <span>DAILY</span> COMMAND LOG</h2>
+      <div class="progress-text" id="daily-date-display"></div>
+    </div>
+
+    <div class="daily-grid">
+      <!-- Hours -->
+      <div class="glass-card daily-card">
+        <h3>⏱ Study Hours</h3>
+        <div class="hours-display" id="hoursDisplay">0.0</div>
+        <div class="hours-controls">
+          <button class="hours-btn" onclick="adjustHours(-0.5)">−½</button>
+          <button class="hours-btn" onclick="adjustHours(-1)">−1</button>
+          <button class="hours-btn" onclick="adjustHours(1)">+1</button>
+          <button class="hours-btn" onclick="adjustHours(0.5)">+½</button>
+        </div>
+      </div>
+
+      <!-- Mood -->
+      <div class="glass-card daily-card">
+        <h3>🎯 Today's Mood / Energy</h3>
+        <div class="mood-grid" id="moodGrid">
+          <button class="mood-btn" data-mood="🔥" onclick="setMood('🔥')">🔥 Fired up</button>
+          <button class="mood-btn" data-mood="💪" onclick="setMood('💪')">💪 Strong</button>
+          <button class="mood-btn" data-mood="😐" onclick="setMood('😐')">😐 Neutral</button>
+          <button class="mood-btn" data-mood="😓" onclick="setMood('😓')">😓 Tired</button>
+          <button class="mood-btn" data-mood="😤" onclick="setMood('😤')">😤 Frustrated</button>
+          <button class="mood-btn" data-mood="🧠" onclick="setMood('🧠')">🧠 Focused</button>
+        </div>
+      </div>
+
+      <!-- Tasks -->
+      <div class="glass-card daily-card" style="grid-column:1/-1;">
+        <h3>✓ Today's Tasks</h3>
+        <div class="task-input-row">
+          <input type="text" id="taskInput" placeholder="What did you study / complete today?"
+            onkeydown="if(event.key==='Enter')addTask()">
+          <button class="task-add-btn" onclick="addTask()">+ Add</button>
+        </div>
+        <div class="task-list" id="taskList"></div>
+      </div>
+
+      <!-- Weak areas -->
+      <div class="glass-card daily-card">
+        <h3>⚠ Weak Areas Today</h3>
+        <div class="task-input-row">
+          <input type="text" id="weakInput" placeholder="e.g. Compound Interest formula"
+            onkeydown="if(event.key==='Enter')addWeak()">
+          <button class="task-add-btn" onclick="addWeak()">+ Add</button>
+        </div>
+        <div class="task-list" id="weakList"></div>
+      </div>
+
+      <!-- Mistakes -->
+      <div class="glass-card daily-card">
+        <h3>🧠 Mistakes Learned</h3>
+        <div class="task-input-row">
+          <input type="text" id="mistakeInput" placeholder="Note a mistake to remember"
+            onkeydown="if(event.key==='Enter')addMistake()">
+          <button class="task-add-btn" onclick="addMistake()">+ Add</button>
+        </div>
+        <div class="task-list" id="mistakeList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ANALYTICS ═══ -->
+  <div class="section" id="section-analytics">
+    <div class="sec-header">
+      <h2>◉ <span>ANALYTICS</span> INTEL</h2>
+    </div>
+
+    <div class="analytics-grid" style="margin-bottom:24px;">
+      <div class="glass-card analytics-card">
+        <div class="a-icon">🏆</div>
+        <div class="a-val" id="an-strongest" style="font-size:16px;color:var(--accent-green);">—</div>
+        <div class="a-label">STRONGEST SUBJECT</div>
+      </div>
+      <div class="glass-card analytics-card">
+        <div class="a-icon">⚠</div>
+        <div class="a-val" id="an-weakest" style="font-size:16px;color:var(--accent-red);">—</div>
+        <div class="a-label">WEAKEST SUBJECT</div>
+      </div>
+      <div class="glass-card analytics-card">
+        <div class="a-icon">✓</div>
+        <div class="a-val" id="an-done">0</div>
+        <div class="a-label">CHAPTERS COMPLETE</div>
+      </div>
+      <div class="glass-card analytics-card">
+        <div class="a-icon">◉</div>
+        <div class="a-val" id="an-overall">0%</div>
+        <div class="a-label">OVERALL COMPLETION</div>
+      </div>
+      <div class="glass-card analytics-card">
+        <div class="a-icon">⏱</div>
+        <div class="a-val" id="an-hours">0</div>
+        <div class="a-label">TOTAL HOURS LOGGED</div>
+      </div>
+      <div class="glass-card analytics-card">
+        <div class="a-icon">🔥</div>
+        <div class="a-val" id="an-streak">0</div>
+        <div class="a-label">CURRENT STREAK</div>
+      </div>
+    </div>
+
+    <div class="row-title">◈ SUBJECT PROGRESS BREAKDOWN</div>
+    <div class="glass-card" style="padding:24px;margin-bottom:24px;" id="subjectBarsContainer">
+      <!-- filled by JS -->
+    </div>
+
+    <div class="row-title">◈ WEEKLY STUDY HOURS</div>
+    <div class="glass-card" style="padding:24px;margin-bottom:24px;">
+      <div class="weekly-chart" id="weeklyChart"></div>
+    </div>
+
+    <div class="row-title">◈ CHAPTER-WISE PROGRESS</div>
+    <div class="glass-card" style="padding:24px;" id="chapterWiseBars">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA DEFINITIONS
+// ══════════════════════════════════════════
+const ARITH_CHAPTERS = [
+  {id:'simplification',name:'Simplification',foundation:'done'},
+  {id:'number_system',name:'Number System',foundation:'partial'},
+  {id:'percentage',name:'Percentage',foundation:'done'},
+  {id:'ratio_proportion',name:'Ratio & Proportion',foundation:'done'},
+  {id:'average',name:'Average',foundation:'todo'},
+  {id:'profit_loss',name:'Profit & Loss',foundation:'todo'},
+  {id:'si_ci',name:'SI & CI',foundation:'todo'},
+  {id:'time_work',name:'Time & Work',foundation:'partial'},
+  {id:'pipes_cisterns',name:'Pipes & Cisterns',foundation:'todo'},
+  {id:'time_speed_dist',name:'Time Speed Distance',foundation:'todo'},
+  {id:'boats_streams',name:'Boats & Streams',foundation:'todo'},
+  {id:'partnership',name:'Partnership',foundation:'todo'},
+  {id:'mixture_alligation',name:'Mixture & Alligation',foundation:'todo'},
+  {id:'ages',name:'Ages',foundation:'todo'},
+  {id:'mensuration',name:'Mensuration',foundation:'todo'},
+  {id:'data_interpretation',name:'Data Interpretation',foundation:'todo'},
+  {id:'hcf_lcm',name:'HCF & LCM',foundation:'done'},
+  {id:'fractions_decimals',name:'Fractions & Decimals',foundation:'done'},
+];
+
+const REASON_CHAPTERS = [
+  {id:'coding_decoding',name:'Coding Decoding'},
+  {id:'blood_relations',name:'Blood Relations'},
+  {id:'direction_sense',name:'Direction Sense'},
+  {id:'seating_arrangement',name:'Seating Arrangement'},
+  {id:'syllogism',name:'Syllogism'},
+  {id:'number_series',name:'Number Series'},
+  {id:'analogy',name:'Analogy'},
+  {id:'classification',name:'Classification'},
+];
+
+const GS_CHAPTERS = [
+  {id:'history',name:'History'},
+  {id:'polity',name:'Polity'},
+  {id:'geography',name:'Geography'},
+  {id:'economy',name:'Economy'},
+  {id:'science',name:'Science'},
+  {id:'current_affairs',name:'Current Affairs'},
+];
+
+const QUOTES = [
+  {text:"The badge is earned in the hours no one sees — the pre-dawn runs, the late-night formulas, the silent grind.",author:"Discipline over Motivation"},
+  {text:"An officer is not born — he is forged. Every question you solve is another strike on the anvil.",author:"War Room Principle"},
+  {text:"Your future self in uniform is watching you right now. Don't let him down.",author:"Krupal's Command"},
+  {text:"Hard work beats talent when talent doesn't work hard. You have both — now combine them.",author:"Tim Notke"},
+  {text:"The exam does not know your background. It only knows what you do between now and the day you sit down.",author:"Preparation Truth"},
+  {text:"Consistent mediocrity is beaten by inconsistent brilliance. But consistent brilliance is unbeatable.",author:"SI Prep Philosophy"},
+  {text:"Every chapter you master is one more weapon in your arsenal. Arm yourself completely.",author:"Operation SI"},
+  {text:"Don't pray for an easy exam. Pray for the strength to conquer a hard one.",author:"Officer's Mindset"},
+  {text:"The only difference between a recruit and an officer is the willingness to keep going.",author:"TSLPRB Wisdom"},
+  {text:"Your preparation today is your performance tomorrow. Invest wisely.",author:"Daily Mission Brief"},
+];
+
+// ══════════════════════════════════════════
+// STATE & STORAGE
+// ══════════════════════════════════════════
+let state = {
+  chapters: {},
+  physical: {runTime:'',runDist:'',runBest:'',pushups:'',pullups:'',situps:'',physNotes:'',
+    toggles:{run:false,workout:false,stretch:false,rest:false}},
+  daily: {hours:0, mood:'', tasks:[], weak:[], mistakes:[]},
+  streak: 0,
+  totalHours: 0,
+  lastStudyDate: '',
+  examDate: '',
+  weeklyHours: [0,0,0,0,0,0,0],
+  quoteIdx: 0,
+};
+
+function loadState(){
+  const s = localStorage.getItem('si_warroom_v2');
+  if(s) state = {...state, ...JSON.parse(s)};
+}
+function saveState(){
+  localStorage.setItem('si_warroom_v2', JSON.stringify(state));
+}
+function getChap(id){
+  if(!state.chapters[id]) state.chapters[id]={done:false,progress:0,confidence:'none',notes:'',questions:0};
+  return state.chapters[id];
+}
+
+// ══════════════════════════════════════════
+// SIDEBAR
+// ══════════════════════════════════════════
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  const ov = document.getElementById('sidebarOverlay');
+  ov.style.display='block';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').style.display='none';
+}
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+const sectionTitles = {
+  dashboard:'MISSION DASHBOARD',arithmetic:'ARITHMETIC COMMAND',
+  reasoning:'REASONING COMMAND',gs:'GENERAL STUDIES',
+  physical:'PHYSICAL TRAINING',daily:'DAILY COMMAND LOG',analytics:'ANALYTICS INTEL'
+};
+function showSection(id, el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('topbarTitle').textContent = sectionTitles[id]||id.toUpperCase();
+  closeSidebar();
+  if(id==='analytics') renderAnalytics();
+  if(id==='dashboard') updateDashboard();
+}
+
+// ══════════════════════════════════════════
+// BUILD CHAPTER CARDS
+// ══════════════════════════════════════════
+function buildChapterCard(ch, color){
+  const d = getChap(ch.id);
+  const confClass = {weak:'conf-weak',medium:'conf-medium',strong:'conf-strong',none:'conf-none'}[d.confidence]||'conf-none';
+  const confLabel = {weak:'⚠ Weak',medium:'◑ Medium',strong:'✓ Strong',none:'— Unset'}[d.confidence]||'— Unset';
+  const statusLabel = ch.foundation ? {done:'Foundation ✓',partial:'Partially Started',todo:'Not Started'}[ch.foundation]||'' : '';
+  const statusClass = ch.foundation ? {done:'status-foundation',partial:'status-partial',todo:'status-todo'}[ch.foundation]||'' : 'status-todo';
+
+  const card = document.createElement('div');
+  card.className = 'chapter-card' + (d.done?' done':'') + (d.done?' expanded':'');
+  card.id = 'card-'+ch.id;
+
+  card.innerHTML = `
+    <div class="chapter-header" onclick="toggleCard('${ch.id}')">
+      <div class="ch-check" onclick="event.stopPropagation();toggleDone('${ch.id}')">${d.done?'✓':''}</div>
+      <div class="ch-name">${ch.name}</div>
+      ${statusLabel ? `<span class="status-pill ${statusClass}" style="font-size:9px;">${statusLabel}</span>` : ''}
+      <span class="ch-conf ${confClass}">${confLabel}</span>
+      <div class="ch-progress-mini"><span style="width:${d.progress}%"></span></div>
+      <span class="ch-chevron">▼</span>
+    </div>
+    <div class="chapter-body">
+      <div class="ch-progress-row">
+        <label>PROGRESS</label>
+        <input type="range" min="0" max="100" value="${d.progress}"
+          oninput="updateProgress('${ch.id}',this.value)">
+        <span class="prog-val" id="pv-${ch.id}">${d.progress}%</span>
+      </div>
+      <div class="ch-conf-btns">
+        <button class="conf-btn weak ${d.confidence==='weak'?'active':''}" onclick="setConf('${ch.id}','weak')">⚠ Weak</button>
+        <button class="conf-btn medium ${d.confidence==='medium'?'active':''}" onclick="setConf('${ch.id}','medium')">◑ Medium</button>
+        <button class="conf-btn strong ${d.confidence==='strong'?'active':''}" onclick="setConf('${ch.id}','strong')">✓ Strong</button>
+      </div>
+      <div class="ch-controls">
+        <div class="ch-control-group">
+          <label>PRACTICE QUESTIONS</label>
+          <input type="number" placeholder="e.g. 50" value="${d.questions||''}"
+            oninput="setQuestions('${ch.id}',this.value)">
+        </div>
+        <div class="ch-control-group">
+          <label>REVISION STATUS</label>
+          <select onchange="setRevision('${ch.id}',this.value)">
+            <option value="">Select...</option>
+            <option value="1st" ${d.revision==='1st'?'selected':''}>1st Revision</option>
+            <option value="2nd" ${d.revision==='2nd'?'selected':''}>2nd Revision</option>
+            <option value="3rd" ${d.revision==='3rd'?'selected':''}>3rd Revision</option>
+            <option value="mastered" ${d.revision==='mastered'?'selected':''}>Mastered</option>
+          </select>
+        </div>
+        <div class="ch-control-group" style="grid-column:1/-1;">
+          <label>NOTES / KEY FORMULAS</label>
+          <textarea rows="2" placeholder="Note key concepts, formulas, tricks..."
+            oninput="setNotes('${ch.id}',this.value)">${d.notes||''}</textarea>
+        </div>
+      </div>
+    </div>`;
+  return card;
+}
+
+function toggleCard(id){
+  const card = document.getElementById('card-'+id);
+  card.classList.toggle('expanded');
+}
+
+function toggleDone(id){
+  const d = getChap(id);
+  d.done = !d.done;
+  saveState();
+  rebuildChapterCard(id);
+  updateAllProgress();
+}
+function updateProgress(id,val){
+  getChap(id).progress = parseInt(val);
+  document.getElementById('pv-'+id).textContent = val+'%';
+  const card = document.getElementById('card-'+id);
+  const mini = card.querySelector('.ch-progress-mini span');
+  if(mini) mini.style.width = val+'%';
+  saveState();
+  updateAllProgress();
+}
+function setConf(id,conf){
+  getChap(id).confidence = conf;
+  saveState();
+  rebuildChapterCard(id);
+  updateAllProgress();
+}
+function setNotes(id,val){getChap(id).notes=val;saveState();}
+function setQuestions(id,val){getChap(id).questions=parseInt(val)||0;saveState();}
+function setRevision(id,val){getChap(id).revision=val;saveState();}
+
+function rebuildChapterCard(id){
+  const all = [...ARITH_CHAPTERS,...REASON_CHAPTERS,...GS_CHAPTERS];
+  const ch = all.find(c=>c.id===id);
+  if(!ch) return;
+  const old = document.getElementById('card-'+id);
+  if(!old) return;
+  const wasExpanded = old.classList.contains('expanded');
+  const newCard = buildChapterCard(ch,'blue');
+  if(wasExpanded) newCard.classList.add('expanded');
+  old.replaceWith(newCard);
+}
+
+function buildAllChapters(){
+  const ag = document.getElementById('arith-chapters');
+  const rg = document.getElementById('reason-chapters');
+  const gg = document.getElementById('gs-chapters');
+  ag.innerHTML=''; rg.innerHTML=''; gg.innerHTML='';
+  ARITH_CHAPTERS.forEach(c=>ag.appendChild(buildChapterCard(c,'blue')));
+  REASON_CHAPTERS.forEach(c=>rg.appendChild(buildChapterCard(c,'green')));
+  GS_CHAPTERS.forEach(c=>gg.appendChild(buildChapterCard(c,'yellow')));
+}
+
+// ══════════════════════════════════════════
+// PROGRESS CALCULATIONS
+// ══════════════════════════════════════════
+function calcSubjectProgress(chapters){
+  if(!chapters.length) return {pct:0,done:0,total:chapters.length};
+  const done = chapters.filter(c=>getChap(c.id).done).length;
+  const avgProg = chapters.reduce((a,c)=>a+getChap(c.id).progress,0)/chapters.length;
+  const pct = Math.round((done/chapters.length)*70 + (avgProg/100)*30);
+  return {pct,done,total:chapters.length};
+}
+
+function calcPhysScore(){
+  const t = state.physical.toggles;
+  const on = Object.values(t).filter(Boolean).length;
+  return Math.round((on/3)*100); // 3 non-rest
+}
+
+function updateAllProgress(){
+  const a = calcSubjectProgress(ARITH_CHAPTERS);
+  const r = calcSubjectProgress(REASON_CHAPTERS);
+  const g = calcSubjectProgress(GS_CHAPTERS);
+  const p = calcPhysScore();
+  const total = Math.round((a.pct+r.pct+g.pct+p)/4);
+
+  // Circular charts
+  setCircle('circ-arith', a.pct, 'circ-arith-txt');
+  setCircle('circ-reason', r.pct, 'circ-reason-txt');
+  setCircle('circ-gs', g.pct, 'circ-gs-txt');
+  setCircle('circ-phys', p, 'circ-phys-txt');
+
+  // Sub text
+  document.getElementById('circ-arith-sub').textContent = `${a.done} / ${a.total} chapters`;
+  document.getElementById('circ-reason-sub').textContent = `${r.done} / ${r.total} chapters`;
+  document.getElementById('circ-gs-sub').textContent = `${g.done} / ${g.total} chapters`;
+
+  // Top bars
+  const ab = document.getElementById('arith-top-bar');
+  if(ab) ab.style.width = a.pct+'%';
+  const rb = document.getElementById('reason-top-bar');
+  if(rb) rb.style.width = r.pct+'%';
+  const gb = document.getElementById('gs-top-bar');
+  if(gb) gb.style.width = g.pct+'%';
+
+  // Section headers
+  const ah = document.getElementById('arith-header-pct');
+  if(ah) ah.textContent = `${a.done} / ${a.total} chapters · ${a.pct}%`;
+  const rh = document.getElementById('reason-header-pct');
+  if(rh) rh.textContent = `${r.done} / ${r.total} chapters · ${r.pct}%`;
+  const gh = document.getElementById('gs-header-pct');
+  if(gh) gh.textContent = `${g.done} / ${g.total} chapters · ${g.pct}%`;
+
+  // Nav badges
+  document.getElementById('nav-arith-count').textContent = a.done;
+  document.getElementById('nav-reason-count').textContent = r.done;
+  document.getElementById('nav-gs-count').textContent = g.done;
+
+  // Dashboard stats
+  const totalDone = a.done+r.done+g.done;
+  const weakCnt = [...ARITH_CHAPTERS,...REASON_CHAPTERS,...GS_CHAPTERS]
+    .filter(c=>getChap(c.id).confidence==='weak').length;
+
+  el('totalPct').textContent = total+'%';
+  el('totalBar').style.width = total+'%';
+  el('streakVal').textContent = state.streak;
+  el('streakDisplay').textContent = state.streak;
+  el('totalHrsVal').textContent = state.totalHours.toFixed(1);
+  el('totalDoneVal').textContent = totalDone;
+  el('weakCount').textContent = weakCnt;
+
+  el('physScore').textContent = p+'%';
+  renderWeakAreas();
+  renderFoundation();
+}
+
+function setCircle(circId, pct, txtId){
+  const c = document.getElementById(circId);
+  const t = document.getElementById(txtId);
+  if(!c||!t) return;
+  const r = 42;
+  const circ = 2*Math.PI*r;
+  const offset = circ - (pct/100)*circ;
+  c.style.strokeDashoffset = offset;
+  t.textContent = pct+'%';
+}
+
+function el(id){return document.getElementById(id);}
+
+// ══════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════
+function updateDashboard(){
+  updateAllProgress();
+}
+
+function renderFoundation(){
+  const container = document.getElementById('foundationStatus');
+  if(!container) return;
+  container.innerHTML = ARITH_CHAPTERS.map(c=>{
+    const f = c.foundation || 'todo';
+    const cls = {done:'status-foundation',partial:'status-partial',todo:'status-todo'}[f];
+    const label = {done:'✓ Foundation',partial:'◑ In Progress',todo:'○ Not Started'}[f];
+    return `<div style="display:flex;align-items:center;gap:6px;padding:6px 0;">
+      <span class="status-pill ${cls}">${label}</span>
+      <span style="font-size:12px;color:var(--text-secondary);">${c.name}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderWeakAreas(){
+  const container = document.getElementById('weakAreasList');
+  if(!container) return;
+  const weak = [...ARITH_CHAPTERS,...REASON_CHAPTERS,...GS_CHAPTERS]
+    .filter(c=>getChap(c.id).confidence==='weak');
+  if(!weak.length){
+    container.innerHTML = `<div style="color:var(--text-muted);font-family:var(--font-mono);font-size:12px;text-align:center;padding:16px;">No weak areas flagged. Mark chapters as Weak to see them here.</div>`;
+    return;
+  }
+  container.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;">
+    ${weak.map(c=>`<span style="background:rgba(255,61,87,0.12);border:1px solid rgba(255,61,87,0.3);color:var(--accent-red);padding:5px 12px;border-radius:20px;font-family:var(--font-display);font-size:13px;font-weight:600;">⚠ ${c.name}</span>`).join('')}
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+// PHYSICAL
+// ══════════════════════════════════════════
+function savePhys(){
+  state.physical.runTime = el('runTime').value;
+  state.physical.runDist = el('runDist').value;
+  state.physical.runBest = el('runBest').value;
+  state.physical.pushups = el('pushups').value;
+  state.physical.pullups = el('pullups').value;
+  state.physical.situps = el('situps').value;
+  state.physical.physNotes = el('physNotes').value;
+  saveState();
+  updateAllProgress();
+}
+
+function togglePhys(key){
+  state.physical.toggles[key] = !state.physical.toggles[key];
+  const tog = document.getElementById('tog-'+key);
+  tog.classList.toggle('on', state.physical.toggles[key]);
+  saveState();
+  updateAllProgress();
+}
+
+function loadPhys(){
+  const p = state.physical;
+  ['runTime','runDist','runBest','pushups','pullups','situps','physNotes'].forEach(k=>{
+    if(el(k)) el(k).value = p[k]||'';
+  });
+  Object.keys(p.toggles).forEach(k=>{
+    const tog = document.getElementById('tog-'+k);
+    if(tog) tog.classList.toggle('on', p.toggles[k]);
+  });
+}
+
+// ══════════════════════════════════════════
+// DAILY TRACKER
+// ══════════════════════════════════════════
+function adjustHours(delta){
+  state.daily.hours = Math.max(0, +(state.daily.hours + delta).toFixed(1));
+  el('hoursDisplay').textContent = state.daily.hours.toFixed(1);
+  updateStreak();
+  saveState();
+  updateAllProgress();
+}
+
+function setMood(mood){
+  state.daily.mood = mood;
+  document.querySelectorAll('.mood-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.mood===mood);
+  });
+  saveState();
+}
+
+function addTask(){
+  const inp = el('taskInput');
+  const val = inp.value.trim();
+  if(!val) return;
+  state.daily.tasks.push({text:val,done:false,id:Date.now()});
+  inp.value='';
+  renderTasks();
+  saveState();
+}
+
+function addWeak(){
+  const inp = el('weakInput');
+  const val = inp.value.trim();
+  if(!val) return;
+  state.daily.weak.push({text:val,id:Date.now()});
+  inp.value='';
+  renderWeakItems();
+  saveState();
+}
+
+function addMistake(){
+  const inp = el('mistakeInput');
+  const val = inp.value.trim();
+  if(!val) return;
+  state.daily.mistakes.push({text:val,id:Date.now()});
+  inp.value='';
+  renderMistakes();
+  saveState();
+}
+
+function renderTasks(){
+  const list = el('taskList');
+  if(!list) return;
+  list.innerHTML = (state.daily.tasks||[]).map((t,i)=>`
+    <div class="task-item ${t.done?'done':''}" id="task-${t.id}">
+      <div class="task-check" onclick="toggleTask(${i})">${t.done?'✓':''}</div>
+      <span class="task-name">${t.text}</span>
+      <button class="task-del" onclick="delTask(${i})">✕</button>
+    </div>`).join('');
+}
+
+function toggleTask(i){
+  state.daily.tasks[i].done = !state.daily.tasks[i].done;
+  renderTasks();
+  saveState();
+}
+function delTask(i){
+  state.daily.tasks.splice(i,1);
+  renderTasks();
+  saveState();
+}
+
+function renderWeakItems(){
+  const list = el('weakList');
+  if(!list) return;
+  list.innerHTML = (state.daily.weak||[]).map((w,i)=>`
+    <div class="task-item">
+      <span style="color:var(--accent-red);">⚠</span>
+      <span class="task-name">${w.text}</span>
+      <button class="task-del" onclick="delWeak(${i})">✕</button>
+    </div>`).join('');
+}
+function delWeak(i){state.daily.weak.splice(i,1);renderWeakItems();saveState();}
+
+function renderMistakes(){
+  const list = el('mistakeList');
+  if(!list) return;
+  list.innerHTML = (state.daily.mistakes||[]).map((m,i)=>`
+    <div class="task-item">
+      <span style="color:var(--accent-cyan);">🧠</span>
+      <span class="task-name">${m.text}</span>
+      <button class="task-del" onclick="delMistake(${i})">✕</button>
+    </div>`).join('');
+}
+function delMistake(i){state.daily.mistakes.splice(i,1);renderMistakes();saveState();}
+
+function updateStreak(){
+  const today = new Date().toDateString();
+  if(state.daily.hours > 0){
+    if(state.lastStudyDate !== today){
+      const yesterday = new Date(Date.now()-86400000).toDateString();
+      if(state.lastStudyDate === yesterday){
+        state.streak++;
+      } else if(state.lastStudyDate !== today){
+        state.streak = 1;
+      }
+      state.lastStudyDate = today;
+      // record weekly
+      const dayIdx = new Date().getDay();
+      if(!state.weeklyHours) state.weeklyHours=[0,0,0,0,0,0,0];
+      state.weeklyHours[dayIdx] = (state.weeklyHours[dayIdx]||0) + state.daily.hours;
+      state.totalHours = +(state.totalHours + 0).toFixed(1);
+    }
+    // update total hours live
+    state.totalHours = parseFloat(state.totalHours.toFixed(1));
+  }
+}
+
+// ══════════════════════════════════════════
+// ANALYTICS
+// ══════════════════════════════════════════
+function renderAnalytics(){
+  const subjects = [
+    {name:'Arithmetic',chapters:ARITH_CHAPTERS,color:'var(--accent-cyan)'},
+    {name:'Reasoning',chapters:REASON_CHAPTERS,color:'var(--accent-green)'},
+    {name:'Gen. Studies',chapters:GS_CHAPTERS,color:'var(--accent-yellow)'},
+  ];
+  const results = subjects.map(s=>({...s, ...calcSubjectProgress(s.chapters)}));
+  results.push({name:'Physical',pct:calcPhysScore(),color:'var(--accent-orange)',done:'-',total:'-'});
+
+  const sorted = [...results].filter(r=>typeof r.pct==='number');
+  const strongest = sorted.reduce((a,b)=>a.pct>b.pct?a:b);
+  const weakest = sorted.reduce((a,b)=>a.pct<b.pct?a:b);
+  const totalDone = ARITH_CHAPTERS.filter(c=>getChap(c.id).done).length
+    + REASON_CHAPTERS.filter(c=>getChap(c.id).done).length
+    + GS_CHAPTERS.filter(c=>getChap(c.id).done).length;
+  const overall = Math.round(sorted.reduce((a,b)=>a+b.pct,0)/sorted.length);
+
+  el('an-strongest').textContent = strongest.name;
+  el('an-weakest').textContent = weakest.name;
+  el('an-done').textContent = totalDone;
+  el('an-overall').textContent = overall+'%';
+  el('an-hours').textContent = state.totalHours.toFixed(1);
+  el('an-streak').textContent = state.streak;
+
+  // Subject bars
+  const sbc = el('subjectBarsContainer');
+  sbc.innerHTML = results.map(r=>`
+    <div class="subject-bar-row">
+      <div class="subject-bar-info">
+        <span class="s-name" style="color:${r.color};">${r.name}</span>
+        <span class="s-pct">${r.pct}%</span>
+      </div>
+      <div class="subject-bar-track">
+        <div class="subject-bar-fill" style="width:${r.pct}%;background:${r.color};color:${r.color};"></div>
+      </div>
+    </div>`).join('');
+
+  // Weekly chart
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const maxH = Math.max(...(state.weeklyHours||[0,0,0,0,0,0,0]),1);
+  el('weeklyChart').innerHTML = (state.weeklyHours||[0,0,0,0,0,0,0]).map((h,i)=>`
+    <div class="week-bar-wrap">
+      <div class="week-bar" style="height:${Math.round((h/maxH)*90)+4}px;" data-val="${h}h"></div>
+      <div class="week-bar-label">${days[i]}</div>
+    </div>`).join('');
+
+  // Chapter-wise
+  const cwb = el('chapterWiseBars');
+  const all = [...ARITH_CHAPTERS,...REASON_CHAPTERS,...GS_CHAPTERS];
+  cwb.innerHTML = all.map(c=>{
+    const d = getChap(c.id);
+    const col = d.confidence==='weak'?'var(--accent-red)':d.confidence==='strong'?'var(--accent-green)':'var(--accent-cyan)';
+    return `<div class="subject-bar-row">
+      <div class="subject-bar-info">
+        <span class="s-name" style="font-size:12px;">${c.name}</span>
+        <span class="s-pct">${d.progress}%</span>
+      </div>
+      <div class="subject-bar-track">
+        <div class="subject-bar-fill" style="width:${d.progress}%;background:${col};color:${col};"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// EXTRA FEATURES
+// ══════════════════════════════════════════
+function newQuote(){
+  state.quoteIdx = (state.quoteIdx+1) % QUOTES.length;
+  const q = QUOTES[state.quoteIdx];
+  el('quoteText').textContent = q.text;
+  el('quoteAuthor').textContent = '— '+q.author;
+  saveState();
+}
+
+function saveExamDate(val){
+  state.examDate = val;
+  saveState();
+  updateCountdown();
+}
+
+function updateCountdown(){
+  if(!state.examDate){el('countdownDays').textContent='—';return;}
+  const diff = Math.ceil((new Date(state.examDate)-new Date())/(1000*60*60*24));
+  el('countdownDays').textContent = diff>0?diff:'0';
+  if(el('examDateInput')) el('examDateInput').value = state.examDate;
+}
+
+function exportJSON(){
+  const data = JSON.stringify(state,null,2);
+  const blob = new Blob([data],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download='si_prep_progress.json';
+  a.click();URL.revokeObjectURL(url);
+  showToast('✓ Progress exported as JSON');
+}
+
+function resetProgress(){
+  if(!confirm('⚠ Reset ALL progress? This cannot be undone.')) return;
+  localStorage.removeItem('si_warroom_v2');
+  location.reload();
+}
+
+function showToast(msg){
+  const t = el('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ══════════════════════════════════════════
+// DAILY DATE DISPLAY
+// ══════════════════════════════════════════
+function renderDateDisplay(){
+  const now = new Date();
+  const opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  const disp = el('daily-date-display');
+  if(disp) disp.textContent = now.toLocaleDateString('en-IN',opts);
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+function init(){
+  loadState();
+  buildAllChapters();
+  loadPhys();
+
+  // Quote
+  const q = QUOTES[state.quoteIdx||0];
+  el('quoteText').textContent = q.text;
+  el('quoteAuthor').textContent = '— '+q.author;
+
+  // Daily
+  el('hoursDisplay').textContent = (state.daily.hours||0).toFixed(1);
+  if(state.daily.mood){
+    document.querySelectorAll('.mood-btn').forEach(b=>{
+      b.classList.toggle('active',b.dataset.mood===state.daily.mood);
+    });
+  }
+  renderTasks();
+  renderWeakItems();
+  renderMistakes();
+  renderDateDisplay();
+
+  updateAllProgress();
+  updateCountdown();
+
+  // Animate circles on load
+  setTimeout(()=>updateAllProgress(), 200);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
